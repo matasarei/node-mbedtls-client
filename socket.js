@@ -11,13 +11,14 @@ const MBEDTLS_ERR_SSL_PEER_CLOSE_NOTIFY = -0x7880;
 class DtlsSocket extends stream.Duplex {
 	constructor(options) {
 		super({ allowHalfOpen: false });
-		options = options || {};
+
+		if(!options) options = {};  // Support no-parameter construction.
 
 		this.remoteAddress = options.host;
-		this.remotePort = options.port;
-		this.dgramSocket = options.socket || dgram.createSocket('udp4');
+		this.remotePort    = options.port;
+		this.dgramSocket   = options.socket || dgram.createSocket('udp4');
+		this._onMessage    = this._onMessage.bind(this);
 
-		this._onMessage = this._onMessage.bind(this);
 		this.dgramSocket.on('message', this._onMessage);
 		this.dgramSocket.once('error', err => {
 			this.emit('error', err);
@@ -27,17 +28,33 @@ class DtlsSocket extends stream.Duplex {
 			this._socketClosed();
 		});
 
-		const privateKey = Buffer.isBuffer(options.key) ? options.key : fs.readFileSync(options.key);
-		const peerPublicKey = Buffer.isBuffer(options.peerPublicKey) ? options.peerPublicKey : fs.readFileSync(options.peerPublicKey);
+		const clientKey  = Buffer.isBuffer(options.key)      ? Buffer.concat([options.key, Buffer.from([0])])    : false;
+		const clientCert = Buffer.isBuffer(options.cert)     ? Buffer.concat([options.cert, Buffer.from([0])])   : false;
+		const ca_cert    = Buffer.isBuffer(options.CACert)   ? Buffer.concat([options.CACert, Buffer.from([0])]) : false;
+		const psk        = Buffer.isBuffer(options.psk)      ? options.psk           : false;
+		const psk_ident  = Buffer.isBuffer(options.PSKIdent) ? options.PSKIdent      : false;
 
-		this.mbedSocket = new mbed.DtlsSocket(privateKey, peerPublicKey,
-			this._sendEncrypted.bind(this),
-			this._handshakeComplete.bind(this),
-			this._error.bind(this),
-			options.debug);
+		if( !psk && !clientKey )
+		{
+			throw "you must define either a PSK or a private key.";
+		}
+
+		this.mbedSocket = new mbed.DtlsSocket(
+			clientKey, clientCert,              // Keys (Buffers)
+			ca_cert,                            // CA   (Buffer)
+			psk,                                // PSK  (Buffer)
+			psk_ident,                          // PSK ident (Buffer)
+			this._sendEncrypted.bind(this),     // Callback
+			this._handshakeComplete.bind(this), // Callback
+			this._error.bind(this),             // Callback
+			options.debug);                     // Verbosity (integer)
+
+		this.send = function(msg, offset, length, port, host, callback) {
+			this.mbedSocket.send(msg);
+		}
 
 		process.nextTick(() => {
-			this.mbedSocket.connect();
+			this._sendSafetyCheck();
 		});
 	}
 
@@ -69,6 +86,18 @@ class DtlsSocket extends stream.Duplex {
 		this.mbedSocket.send(chunk);
 	}
 
+	_sendSafetyCheck() {
+		// make absolutely sure the socket will let us send
+		if (this.dgramSocket) {
+			this.mbedSocket.connect();
+		}
+		else {
+			process.nextTick(() => {
+				this._sendSafetyCheck();
+			});
+		}
+	}
+
 	_sendEncrypted(msg) {
 		// store the callback here because '_write' might be called
 		// again before the underlying socket finishes sending
@@ -83,7 +112,7 @@ class DtlsSocket extends stream.Duplex {
 			}
 		};
 
-		if (!this.dgramSocket || !this.dgramSocket._handle) {
+		if (!this.dgramSocket) {
 			process.nextTick(() => {
 				sendFinished(new Error('no underlying socket'));
 			});

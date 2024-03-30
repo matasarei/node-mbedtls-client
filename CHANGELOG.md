@@ -1,3 +1,7 @@
+# 2.2.0
+* Node.js 12
+* mbedtls 2.27
+
 # 2.1.0
 
 * updating mbedtls submodule to 2.9.0

@@ -11,11 +11,13 @@ rl.setPrompt('<= ');
 const dtls = require('../index.js');
 
 const options = {
-	host: process.argv[2] || 'localhost',
-	port: process.argv[3] || 5683,
-	key: path.join(__dirname, '../test/private.der'),
-	peerPublicKey: path.join(__dirname, '../test/serverPublicKey.der'),
-	debug: 5
+	host:          process.argv[2] || 'localhost',
+	port:          process.argv[3] || 5684,
+	key:           null, //fs.readFileSync(path.join(__dirname, '../test/ec_private_key.pem')),
+	cert:          null, //fs.readFileSync(path.join(__dirname, '../test/ec_cert.pem')),
+	psk:           Buffer.from("AAAAAAAAAAAAAAAA"),
+	PSKIdent:      Buffer.from("32323232-3232-3232-3232-323232323232"),
+	debug:         0
 };
 
 let clientSocket = dtls.connect(options, socket => {
