@@ -187,6 +187,7 @@ DtlsSocket::DtlsSocket(
   {
     allowed_ciphersuites[suite++] = MBEDTLS_TLS_ECDHE_PSK_WITH_AES_128_CBC_SHA256;
     allowed_ciphersuites[suite++] = MBEDTLS_TLS_PSK_WITH_AES_128_CBC_SHA256;
+    allowed_ciphersuites[suite++] = MBEDTLS_TLS_PSK_WITH_AES_128_GCM_SHA256;
     allowed_ciphersuites[suite++] = MBEDTLS_TLS_PSK_WITH_AES_128_CCM_8;   // IoTivity
   }
 

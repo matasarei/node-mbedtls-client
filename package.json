@@ -1,6 +1,6 @@
 {
   "name": "node-mbedtls-client",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "DTLS client created by wrapping mbedtls",
   "main": "index.js",
   "scripts": {
