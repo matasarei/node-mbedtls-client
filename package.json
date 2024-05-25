@@ -1,5 +1,5 @@
 {
-  "name": "node-mbed-dtls-client",
+  "name": "node-mbedtls-client",
   "version": "2.2.0",
   "description": "DTLS client created by wrapping mbedtls",
   "main": "index.js",
@@ -11,15 +11,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/matasarei/node-mbed-dtls-client.git"
+    "url": "git+https://github.com/matasarei/node-mbedtls-client.git"
   },
   "author": "Bryce Kahle <bryce@particle.io>",
   "license": "Apache-2.0",
   "gypfile": true,
   "bugs": {
-    "url": "https://github.com/matasarei/node-mbed-dtls-client/issues"
+    "url": "https://github.com/matasarei/node-mbedtls-client/issues"
   },
-  "homepage": "https://github.com/matasarei/node-mbed-dtls-client#readme",
+  "homepage": "https://github.com/matasarei/node-mbedtls-client#readme",
   "engines": {
     "node": ">=12.0.0"
   },
