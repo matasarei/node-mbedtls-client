@@ -7,6 +7,12 @@
 Original DTLS client with fixes and improvements from AI and [node-mbed-dtls-modified](https://www.npmjs.com/package/node-mbed-dtls-modified), 
 including Node.js 12+ support and Node.js v24 compatibility.
 
+## Supported Platforms
+
+- **Linux** (Ubuntu, CentOS, etc.)
+- **macOS** (Intel and Apple Silicon)
+- **Windows** - Not officially supported or tested
+
 ## Setup & Build
 ```bash
 git submodule update --init mbedtls
