@@ -55,6 +55,6 @@ To enable automated NPM publishing:
 - ✅ Multi-version Node.js support (18.x-24.x)
 - ✅ C++20 and native module compilation
 - ✅ Security auditing and dependency monitoring
-- ✅ Library-optimized CI (no package-lock.json dependency)
+- ✅ Library-optimized CI (fresh dependency resolution, no committed package-lock.json)
 
 The pipeline ensures quality, security, and compatibility across all supported platforms.
