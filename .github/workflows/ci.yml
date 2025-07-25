@@ -85,8 +85,8 @@ jobs:
         npm run build
         echo "Running comprehensive tests..."
         npm test
-        echo "Testing example usage..."
-        cd examples && node echo.js --help || echo "Example script executed"
+        echo "Testing example syntax..."
+        node -c examples/echo.js && echo "✓ Example script syntax is valid"
 
   # Code quality and security checks
   quality:
