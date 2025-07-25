@@ -9,8 +9,9 @@
 
 ## Build System Improvements
 * Updated `binding.gyp` to use C++20 standard for Node.js v24 compatibility
-* Enhanced build configuration with proper MACOSX_DEPLOYMENT_TARGET
+* Enhanced build configuration with proper MACOSX_DEPLOYMENT_TARGET (13.5)
 * Fixed C++ header compatibility issues on macOS
+* Aligned macOS deployment target with Node.js 24 requirements
 
 ## Testing Infrastructure
 * Custom test framework with describe/it pattern

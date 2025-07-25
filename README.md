@@ -9,9 +9,16 @@ including Node.js 12+ support and Node.js v24 compatibility.
 
 ## Supported Platforms
 
-- **Linux** (Ubuntu, CentOS, etc.)
-- **macOS** (Intel and Apple Silicon)
-- **Windows** - Not officially supported or tested
+- **Linux** (Ubuntu, Fedora, etc.)
+- **macOS** ≥ 13.5 Ventura (Intel and Apple Silicon)
+- **Windows** - Not supported or tested
+
+## System Requirements
+
+- **Node.js**: 18.x, 20.x, 22.x, or 24.x
+- **macOS**: macOS 13.5 (Ventura) or later
+- **Xcode**: 16.1 or later (for macOS development)
+- **C++ Compiler**: Support for C++20 standard
 
 ## Setup & Build
 ```bash

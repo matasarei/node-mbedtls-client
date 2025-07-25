@@ -156,7 +156,7 @@
       "xcode_settings": {
         "CLANG_CXX_LANGUAGE_STANDARD": "c++20",
         "CLANG_CXX_LIBRARY": "libc++",
-        "MACOSX_DEPLOYMENT_TARGET": "10.15"
+        "MACOSX_DEPLOYMENT_TARGET": "13.5"
       },
       "conditions": [
           ['OS=="linux"', {

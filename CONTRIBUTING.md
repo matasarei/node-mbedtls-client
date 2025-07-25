@@ -7,10 +7,10 @@ Thank you for your interest in contributing to node-mbedtls-client! This guide w
 ### Prerequisites
 - Node.js 18.x or later (tested up to Node.js 24.x)
 - Python 3.x (for node-gyp)
-- C++ compiler:
-  - **Linux**: GCC or Clang with C++17+ support
-  - **macOS**: Xcode Command Line Tools
-  - **Windows**: Visual Studio Build Tools or similar
+- C++ compiler with C++20 support:
+  - **Linux**: GCC >= 12.2 or Clang with C++20 support
+  - **macOS**: macOS 13.5+ with Xcode >= 16.1 (for Node.js 24 compatibility)
+  - **Windows**: Visual Studio 2022 or later
 
 ### Initial Setup
 ```bash
@@ -114,7 +114,7 @@ Use the feature request template and include:
 
 ### Testing on Multiple Platforms
 If possible, test your changes on:
-- Different operating systems (Linux, macOS, Windows)
+- Linux, macOS, Windows (optional)
 - Different Node.js versions (18.x, 20.x, 22.x, 24.x)
 - Different architectures (x64, arm64)
 
