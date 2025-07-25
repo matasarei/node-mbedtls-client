@@ -21,7 +21,7 @@ jobs:
     
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, macos-latest]
         node-version: [18.x, 20.x, 24.x]
         
     steps:
@@ -47,12 +47,6 @@ jobs:
       run: |
         xcode-select --install || true
         which python3 || brew install python3
-    
-    - name: Install system dependencies (Windows)
-      if: matrix.os == 'windows-latest'
-      run: |
-        choco install python3 -y
-        npm install -g windows-build-tools || echo "Build tools installation attempted"
     
     - name: Install dependencies
       run: npm install
