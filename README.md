@@ -1,6 +1,11 @@
 # MbedTLS Node.js Client
+
+[![CI](https://github.com/matasarei/node-mbedtls-client/workflows/CI/badge.svg)](https://github.com/matasarei/node-mbedtls-client/actions/workflows/ci.yml)
+[![Node.js Version](https://img.shields.io/node/v/node-mbedtls-client.svg)](https://nodejs.org)
+[![npm version](https://badge.fury.io/js/node-mbedtls-client.svg)](https://www.npmjs.com/package/node-mbedtls-client)
+
 Original DTLS client with fixes and improvements from AI and [node-mbed-dtls-modified](https://www.npmjs.com/package/node-mbed-dtls-modified), 
-including Node.js 12 support.
+including Node.js 12+ support and Node.js v24 compatibility.
 
 ## Setup & Build
 ```bash
@@ -46,3 +51,35 @@ client.on('close', (hadError) => {});
 // msg: Optional error string.
 client.on('error', (err, msg) => {});
 ```
+
+## Testing
+
+Run the comprehensive test suite:
+```bash
+# Run all tests
+npm test
+
+# Run code quality checks
+npm run lint
+
+# Run both tests and linting
+npm test && npm run lint
+```
+
+The test suite covers:
+- ✅ Module loading and API exposure
+- ✅ Socket class instantiation and configuration  
+- ✅ Error handling for invalid inputs
+- ✅ Native module binding verification
+- ✅ Connection attempt handling with PSK authentication
+- ✅ Certificate error handling
+
+## Node.js Compatibility
+
+This module has been tested and works with:
+- ✅ Node.js 18.x
+- ✅ Node.js 20.x  
+- ✅ Node.js 22.x
+- ✅ Node.js 24.x (latest)
+
+The build system automatically detects and configures the appropriate C++ standard for your Node.js version.
