@@ -73,8 +73,14 @@ jobs:
         # Update to latest compatible versions
         npm update
         
-        # Build and test with updated dependencies
-        npm run build
+        # Clean and reinstall to rebuild native modules with updated dependencies
+        echo "Cleaning build artifacts..."
+        rm -rf build/ node_modules/
+        
+        echo "Reinstalling and rebuilding with updated dependencies..."
+        npm install
+        
+        echo "Running tests..."
         npm test
         npm run lint
         
