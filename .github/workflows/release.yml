@@ -1,0 +1,109 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+        - patch
+        - minor
+        - major
+
+jobs:
+  build-and-test:
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        node-version: [18.x, 20.x, 24.x]
+        
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        registry-url: 'https://registry.npmjs.org'
+    
+    - name: Install system dependencies (Ubuntu)
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential python3
+    
+    - name: Install system dependencies (macOS)
+      if: matrix.os == 'macos-latest'
+      run: |
+        xcode-select --install || true
+        which python3 || brew install python3
+    
+    - name: Install dependencies
+      run: npm install
+    
+    - name: Build native module
+      run: npm run build
+      
+    - name: Run comprehensive tests
+      run: |
+        npm test
+        npm run lint
+    
+    - name: Test installation from tarball
+      run: |
+        npm pack
+        TARBALL=$(ls *.tgz)
+        echo "Testing installation of $TARBALL"
+        mkdir test-install && cd test-install
+        npm init -y
+        npm install ../$TARBALL
+        node -e "const m = require('node-mbedtls-client'); console.log('✓ Package installs and loads correctly');"
+
+  # Only run publish on successful builds
+  publish:
+    if: github.event_name == 'release'
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+    
+    - name: Use Node.js 24.x
+      uses: actions/setup-node@v4
+      with:
+        node-version: '24.x'
+        registry-url: 'https://registry.npmjs.org'
+    
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential python3
+    
+    - name: Install dependencies
+      run: npm install
+    
+    - name: Build for publishing
+      run: npm run build
+    
+    - name: Final test before publish
+      run: |
+        npm test
+        npm run lint
+    
+    - name: Publish to npm
+      run: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

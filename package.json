@@ -1,10 +1,15 @@
 {
   "name": "node-mbedtls-client",
-  "version": "2.2.1",
-  "description": "DTLS client created by wrapping mbedtls",
+  "version": "2.3.0",
+  "description": "DTLS client created by wrapping mbedtls with Node.js 24.x support",
   "main": "index.js",
   "scripts": {
-    "test": "exit 0",
+    "test": "node test-runner.js",
+    "lint": "node lint.js",
+    "ci": "npm run build && npm run test && npm run lint",
+    "preversion": "npm run ci",
+    "version": "git add -A",
+    "postversion": "git push && git push --tags",
     "install": "node-gyp rebuild",
     "build": "node-gyp build",
     "start": "node index.js"
@@ -24,6 +29,6 @@
     "node": ">=12.0.0"
   },
   "dependencies": {
-    "nan": "^2.1.0"
+    "nan": "^2.23.0"
   }
 }

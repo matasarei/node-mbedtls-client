@@ -1,3 +1,37 @@
+# Git and development files
 .gitmodules
-.idea
-build
+.git/
+.github/
+.idea/
+.vscode/
+
+# Build artifacts (platform-specific, rebuilt during npm install)
+build/
+node_modules/
+
+# Development and testing infrastructure
+test/
+test-runner.js
+lint.js
+
+# Documentation and development files not needed in package
+VERSION_2_3_0_SUMMARY.md
+CONTRIBUTING.md
+CHANGELOG.md
+
+# Development artifacts
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.DS_Store
+*.tgz
+
+# IMPORTANT: These ARE included in the package:
+# mbedtls/ - mbedTLS source code (required for compilation)
+# src/ - C++ source files  
+# binding.gyp - node-gyp build configuration
+# index.js - main entry point
+# socket.js - DTLS socket implementation
+# package.json - package metadata
+# README.md - usage documentation
